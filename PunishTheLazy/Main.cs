@@ -21,6 +21,7 @@ namespace PunishTheLazy
 		private const double UT_YEAR = UT_HOUR * 2665.5d;
 
 		private static Timer pTimer;
+		private static float pTimerInterval;
 
 		private static double lazyPeriod; //Let the user stay in time warp for this long.
 		private static double punishPeriod; //Punish the user once every this many seconds.
@@ -49,7 +50,8 @@ namespace PunishTheLazy
 				inGame = false;
 			}
 			utDelta = 0;
-			pTimer = new System.Timers.Timer(2000);
+			pTimerInterval = 2000;
+			pTimer = new System.Timers.Timer(pTimerInterval);
 			pTimer.Elapsed += punishTimer;
 			pTimer.Enabled = true;
 
@@ -62,7 +64,7 @@ namespace PunishTheLazy
 			GameEvents.OnProgressAchieved.Add(onProgressAchieved);
 			GameEvents.OnTechnologyResearched.Add(onTechnologyResearched);
 		}
-			
+
 		private static void punishTimer(System.Object source, ElapsedEventArgs e)
 		{
 			/*
@@ -123,6 +125,7 @@ namespace PunishTheLazy
 			{
 				//Reputation.Instance.reputation += amt;
 				Reputation.Instance.AddReputation(amt, reason);
+				showPunishMessage();
 				if (DEBUG_LEVEL < 1)
 					Debug.Log("[PunishTheLazy] New reputation: " + Reputation.Instance.reputation);
 			}
@@ -134,12 +137,21 @@ namespace PunishTheLazy
 		/*
 		 * Stop punishing and reset utDelta.
 		 */
-		private void stopPunishing()
+		private static void stopPunishing()
 		{
 			if (DEBUG_LEVEL < 1)
 				Debug.Log("[PunishTheLazy] Ceasing punishment.");
 			punishing = false;
 			utDelta = 0;
+		}
+
+
+		/*
+		 * 
+		 */
+		private static void showPunishMessage()
+		{
+			ScreenMessages.PostScreenMessage("Your reputation has decreased to " + Reputation.Instance.reputation, pTimerInterval / 1000, ScreenMessageStyle.UPPER_CENTER);
 		}
 
 		/*!
@@ -182,6 +194,8 @@ namespace PunishTheLazy
 		{
 			stopPunishing();
 		}
+
+
 	}
 }
 
