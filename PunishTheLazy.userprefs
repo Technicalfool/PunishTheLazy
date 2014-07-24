@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="PunishTheLazy\Main.cs">
     <Files>
-      <File FileName="PunishTheLazy\Main.cs" Line="57" Column="24" />
+      <File FileName="PunishTheLazy\Main.cs" Line="140" Column="38" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
