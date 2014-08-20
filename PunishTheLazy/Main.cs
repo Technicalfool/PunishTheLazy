@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace PunishTheLazy
 {
-	[KSPAddon(KSPAddon.Startup.EveryScene, true)]
+	[KSPAddon(KSPAddon.Startup.Instantly, true)]
 	public class Punisher : MonoBehaviour
 	{
 		private const int DEBUG_LEVEL = 0; //Increase this number to progressively reduce log spam.
@@ -33,9 +33,19 @@ namespace PunishTheLazy
 		private static bool inGame;
 		private static bool punishing; //true = we are punishing the player.
 
+		public static Punisher instance{get; private set;}
 
 		public void Start()
 		{
+			if (instance == null)
+			{
+				instance = this;
+				DontDestroyOnLoad(this);
+			}else{
+				Destroy(this);
+				return;
+			}
+
 			lazyPeriod = UT_MUNARMONTH;
 			punishPeriod = UT_DAY;
 			punishAmount = -0.1f;
