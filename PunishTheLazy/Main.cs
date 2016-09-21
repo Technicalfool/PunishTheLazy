@@ -134,7 +134,7 @@ namespace PunishTheLazy
 			try
 			{
 				//Reputation.Instance.reputation += amt;
-				Reputation.Instance.AddReputation(amt, reason);
+				Reputation.Instance.AddReputation(amt, TransactionReasons.Cheating);
 				showPunishMessage();
 				if (DEBUG_LEVEL < 1)
 					Debug.Log("[PunishTheLazy] New reputation: " + Reputation.Instance.reputation);
@@ -172,7 +172,7 @@ namespace PunishTheLazy
 		{
 			stopPunishing();
 		}
-		private void onVesselRecovered(ProtoVessel pv)
+		private void onVesselRecovered(ProtoVessel pv, bool b)
 		{
 			stopPunishing();
 		}

@@ -31,10 +31,16 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="Assembly-CSharp">
-      <HintPath>Y:\KSP_win\exp\0.24kspi\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>Y:\KSP_win\113to120\KSP_x64_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>Y:\KSP_win\exp\0.24kspi\KSP_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>Y:\KSP_win\113to120\KSP_x64_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="KSPUtil">
+      <HintPath>Y:\KSP_win\113to120\KSP_x64_Data\Managed\KSPUtil.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Y:\KSP_win\113to120\KSP_x64_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
