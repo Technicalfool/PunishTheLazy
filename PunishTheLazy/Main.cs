@@ -60,7 +60,7 @@ namespace PunishTheLazy
 				inGame = false;
 			}
 			utDelta = 0;
-			pTimerInterval = 2000;
+			pTimerInterval = 4000;
 			pTimer = new System.Timers.Timer(pTimerInterval);
 			pTimer.Elapsed += punishTimer;
 			pTimer.Enabled = true;
@@ -80,6 +80,11 @@ namespace PunishTheLazy
 			/*
 			 * TODO: Check for career mode.
 			 */
+
+			/*
+			 * Planetarium.GetUniversalTime() doesn't exist when the plugin starts.
+			 * If there's an error grabbing the universe time, skip this tick.            
+			 */
 			try
 			{
 				ut = Planetarium.GetUniversalTime();
@@ -95,30 +100,38 @@ namespace PunishTheLazy
 
 			if (inGame)
 			{
-				if (ut == 0)
+				try
 				{
-					if (DEBUG_LEVEL < 1)
-						Debug.Log("[PunishTheLazy] Got universal time of 0.");
-					lastUT = 0;
-					utDelta = 0;
-				}
-				if (punishing)
-				{
-					if (utDelta >= punishPeriod)
+					if (ut == 0)
 					{
-						punish(calcPunishment(utDelta), "Player continues to be lazy.");
+						if (DEBUG_LEVEL < 1)
+							Debug.Log("[PunishTheLazy] Got universal time of 0.");
+						lastUT = 0;
 						utDelta = 0;
 					}
-				}
-				else{
-					if (utDelta > lazyPeriod)
+					if (punishing)
 					{
-						punishing = true;
-						punish(punishAmount, "Player is being lazy.");
-						utDelta = 0;
+						if (utDelta >= punishPeriod)
+						{
+							punish(calcPunishment(utDelta), "Player continues to be lazy.");
+							utDelta = 0;
+						}
 					}
+					else{
+						if (utDelta > lazyPeriod)
+						{
+							punishing = true;
+							punish(punishAmount, "Player is being lazy.");
+							utDelta = 0;
+						}
+					}
+					lastUT = ut;
 				}
-				lastUT = ut;
+				catch(Exception ex){
+					Debug.Log("[PunishTheLazy] Exception during Punish timer: " + ex.Message);
+					Debug.Log("[PunishTheLazy] (Is the game in career mode?)");
+					inGame = false;
+				}
 			}
 		}
 
@@ -134,6 +147,7 @@ namespace PunishTheLazy
 			try
 			{
 				//Reputation.Instance.reputation += amt;
+				//We used to be able to give custom reasons. What happened? :(
 				Reputation.Instance.AddReputation(amt, TransactionReasons.Cheating);
 				showPunishMessage();
 				if (DEBUG_LEVEL < 1)
